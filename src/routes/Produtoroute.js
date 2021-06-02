@@ -12,9 +12,9 @@ routes.get('/add',produtoController.abreadd)
 
 routes.post('/add',produtoController.add)
 
-routes.get('/edt/:id',produtoController.abreedit)
+routes.get('/edit/:id',produtoController.abreedit)
 
-routes.post('/edt/:id',produtoController.edit)
+routes.post('/edit/:id',produtoController.edit)
 
 routes.get('/del/:id',produtoController.del)
 

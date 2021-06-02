@@ -8,7 +8,7 @@ module.exports = {
         return res.render('admin/produto/list.ejs',{'Produtos':produtos,'msg':req.flash('msg')})
     },
     async filtro(req,res){
-        let query = "%${req.body.filtro}%"
+        let query = '%'+req.body.filtro+'%'
         const produtos = await Produto.findAll({
             where:{
                 nome:{
@@ -34,7 +34,27 @@ module.exports = {
         }     
     },
     async abreedit(req,res){
-        
+        const id  = req.params.id;
+        const produto = await Produto.findByPk(id);
+        console.log(produto)
+        return res.render('admin/produto/edit.ejs',{'Produtos':produto  ,'msg':req.flash('msg')})
+    },
+    async edit(req,res){
+        const id = req.params.id
+        const produto = await Produto.findByPk(id)
+        produto.nome = req.body.nome;
+        produto.valor = req.body.valor;
+        produto.tipo = req.body.tipo;
+        await produto.save().then(
+            (produto)=>{
+                req.flash('msg',produto.nome + ' foi adicionado com sucesso!')
+                res.render('admin/produto/edit.ejs',{'Produtos':produto  ,'msg':req.flash('msg')})
+            
+            },(err) =>{
+                req.flash('msg','Problemas ao alterar o produto:')
+                res.render('admin/produto/edit.ejs',{'Produtos':produto  ,'msg':req.flash('msg')})
+            }
+        );   
     },
     async del(req,res){
         
